@@ -1,8 +1,5 @@
 //package cliente;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.Socket;
 
 public class MainCliente {
@@ -10,7 +7,7 @@ public class MainCliente {
     /**
     * Puerto
     * */
-    private final static int PORT = 5000;
+    private final static int PORT = 10578;
     /**
     * Host
     * */
@@ -21,27 +18,49 @@ public class MainCliente {
         Socket socket;//Socket para la comunicacion cliente servidor        
         try {            
             System.out.println("Cliente> Inicio");  
-            while( !exit ){//ciclo repetitivo                                
-                socket = new Socket(SERVER, PORT);//abre socket                
-                //Para leer lo que envie el servidor      
-                BufferedReader input = new BufferedReader( new InputStreamReader(socket.getInputStream()));                
-                //para imprimir datos del servidor
-                PrintStream output = new PrintStream(socket.getOutputStream());                
-                //Para leer lo que escriba el usuario            
+            while( !exit ){//ciclo repetitivo       
+                                    
+                socket = new Socket(SERVER, PORT);//abre socket   
+                //BufferedReader input = new BufferedReader( new InputStreamReader(socket.getInputStream()));                
+                //PrintStream output = new PrintStream(socket.getOutputStream());                
+                    
+                DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+                DataInputStream dis = new DataInputStream(socket.getInputStream());
+
                 BufferedReader brRequest = new BufferedReader(new InputStreamReader(System.in));            
                 System.out.println("Cliente> Escriba comando");                
-                //captura comando escrito por el usuario
-                String request = brRequest.readLine();                
-                //manda peticion al servidor
-                output.println(request); 
-                //captura respuesta e imprime
-                String st = input.readLine();
-                if( st != null ) System.out.println("Servidor> " + st );    
+                String request = brRequest.readLine();   
+
+                
+
                 if(request.equals("exit")){//terminar aplicacion
                     exit=true;                  
                     System.out.println("Cliente> Fin de programa");    
-                }  
+                }else{
+                    dos.writeUTF(request);
+                    String st = dis.readUTF();
+
+                    if( st != null ){
+                        System.out.println("Servidor> " + st ); 
+                    }   
+                }
                 socket.close();
+                
+
+                /*
+                sk = new Socket("127.0.0.1", 10578);
+                dos = new DataOutputStream(sk.getOutputStream());
+                dis = new DataInputStream(sk.getInputStream());
+                System.out.println(id + " envía saludo");
+                dos.writeUTF("hola");
+                String respuesta="";
+                respuesta = dis.readUTF();
+                System.out.println(id + " Servidor devuelve saludo: " + respuesta);
+                dis.close();
+                dos.close();
+                sk.close();
+                */
+
             }//end while                                    
        } catch (IOException ex) {        
          System.err.println("Cliente> " + ex.getMessage());   
