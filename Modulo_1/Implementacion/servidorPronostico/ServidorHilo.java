@@ -24,6 +24,8 @@ public class ServidorHilo extends Thread {
     public void desconnectar() {
         try {
             socket.close();
+            System.out.println("Deconeccion de cliente SP");
+
         } catch (IOException ex) {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -63,12 +65,16 @@ public class ServidorHilo extends Thread {
         String result="";
         boolean error = false;
 
-        DateFormat format = new SimpleDateFormat("dd/mm/yyyy", Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         
         try{
             Date date = format.parse(request);
             System.out.println("FechaFormat");
             System.out.println(date);
+            
+            request = new SimpleDateFormat("dd/MM/yyyy").format(date);
+            System.out.println("request"); 
+            System.out.println(request); 
 
         }catch(Exception e){
             System.out.println("Error en la fecha enviada por el cliente");
@@ -92,6 +98,6 @@ public class ServidorHilo extends Thread {
             }
         }
 
-        return result;
+        return request+" es "+result;
     }
 }

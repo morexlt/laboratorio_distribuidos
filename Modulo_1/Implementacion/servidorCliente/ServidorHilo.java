@@ -3,6 +3,9 @@ import java.net.*;
 import java.util.logging.*;
 import java.util.*;
 import java.text.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.*;
 
 public class ServidorHilo extends Thread {
     private Socket socket;
@@ -36,11 +39,6 @@ public class ServidorHilo extends Thread {
         try {
             accion = dis.readUTF();
             String result = this.process(accion);
-            
-            //if(accion.equals("hola")){
-            //    System.out.println("El cliente con idSesion "+this.idSessio+" saluda");
-            //    dos.writeUTF("adios");
-            //}
             dos.writeUTF(result);
 
         } 
@@ -64,13 +62,35 @@ public class ServidorHilo extends Thread {
         String fechaFormat = "";
         String result="";
         boolean error = false;
+        boolean errorFecha = false;
+        boolean errorSigno = false;
+        String signo = "";
+        String fecha = "";
 
         String respuestaHoros = "";
         String respuestaPron = "";
 
-        String[] parts = request.split("-");
-        String part1 = parts[0]; // 004
-        String part2 = parts[1]; // 034556
+        Pattern patHoroscopo = Pattern.compile("(?i)(Acuario|Piscis|Aries|Tauro|Geminis|Cancer|Leo|Virgo|Libra|Escorpio|Sagitario|Capricornio)");
+        Pattern patPronostico = Pattern.compile("(?i)(\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d)");
+        Matcher matHoroscopo = patHoroscopo.matcher(request);
+        Matcher matPronostico = patPronostico.matcher(request);
+        matHoroscopo.find();
+        matPronostico.find();
+
+        //Me fijo si Me mando un Signo del Horoscopo
+        try{
+            signo = matHoroscopo.group();
+        }catch(Exception e){
+            errorSigno = true;    
+        }
+
+        //Me fijo si mando una fecha
+        try{
+            fecha = matPronostico.group();
+        }catch(Exception e){
+            errorFecha = true;   
+        }
+
 
         Map cache = this.padre.getCache();
         System.out.println("Servidor Hijo");
@@ -80,34 +100,51 @@ public class ServidorHilo extends Thread {
            result = (String)cache.get(request);
         }else{
             try {  
-                //System.out.println("Antes del Pronostico");
+                if(errorFecha && errorSigno){
 
-                //---------------------------------------------------
-                //              Server de Pronostico
-                //---------------------------------------------------
-                socketPron = new Socket("localhost", 10578);//abre socket     
-                DataOutputStream dosPron = new DataOutputStream(socketPron.getOutputStream());
-                DataInputStream disPron = new DataInputStream(socketPron.getInputStream());                          
-                dosPron.writeUTF(part1);
-                respuestaPron = disPron.readUTF();
-                socketPron.close();
+                }else{
 
+                    if(!errorFecha){
+                        //---------------------------------------------------
+                        //              Server de Pronostico
+                        //---------------------------------------------------
+                        socketPron = new Socket("localhost", 10578);//abre socket     
+                        DataOutputStream dosPron = new DataOutputStream(socketPron.getOutputStream());
+                        DataInputStream disPron = new DataInputStream(socketPron.getInputStream());                          
+                        dosPron.writeUTF(fecha);
+                        respuestaPron = disPron.readUTF();
+                        socketPron.close();
+                    }else{
+                        respuestaPron = "";
+                    }
 
-                //System.out.println("Antes del Horoscopo");
-                //---------------------------------------------------
-                //              Server de Horoscopo
-                //---------------------------------------------------
-                socketHoros = new Socket("localhost", 10579);//abre socket     
-                DataOutputStream dosHoros = new DataOutputStream(socketHoros.getOutputStream());
-                DataInputStream disHoros = new DataInputStream(socketHoros.getInputStream());                          
-                dosHoros.writeUTF(part2);
-                respuestaHoros = disHoros.readUTF();
-                socketHoros.close();
+                    if(!errorSigno){
+                        //---------------------------------------------------
+                        //              Server de Horoscopo
+                        //---------------------------------------------------
+                        socketHoros = new Socket("localhost", 10579);//abre socket     
+                        DataOutputStream dosHoros = new DataOutputStream(socketHoros.getOutputStream());
+                        DataInputStream disHoros = new DataInputStream(socketHoros.getInputStream());                          
+                        dosHoros.writeUTF(signo);
+                        respuestaHoros = disHoros.readUTF();
+                        socketHoros.close();
+                    }else{
+                        respuestaHoros = "";
+                    }
+
+                }
 
             } catch (IOException ex) {        
                 System.err.println("Cliente> " + ex.getMessage());   
             }
-            result = "El Pronostico para el "+part1+" es "+respuestaPron+"\n y el Horoscopo para "+part2+" es "+respuestaHoros;
+
+            if(respuestaHoros != "" && respuestaPron != ""){
+                result = "El Pronostico para el "+respuestaPron+"\n y el Horoscopo para "+signo+" es "+respuestaHoros;
+            }else if(respuestaPron != ""){
+                result = "El Pronostico para el "+respuestaPron;
+            }else if(respuestaHoros != ""){
+                result = "El Horoscopo para "+signo+" es "+respuestaHoros;
+            }
 
             System.out.println(result);
 

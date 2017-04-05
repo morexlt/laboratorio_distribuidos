@@ -23,6 +23,8 @@ public class ServidorHilo extends Thread {
     public void desconnectar() {
         try {
             socket.close();
+            System.out.println("Deconeccion de cliente SH");
+
         } catch (IOException ex) {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
         }
