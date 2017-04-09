@@ -127,7 +127,7 @@ El punto clave se encuentra en que se puedan comprender los conceptos básicos
  Un socket forma una abstracción sobre el actual punto final de comunicación
  real usado por el sistema opertivo local para un específico protocolo de
  transporte.
- 
+ (4.3.1 Message-Oriented Transient Communication Tannenbaun)
 \end_layout
 
 \begin_layout Standard
@@ -408,12 +408,6 @@ Conclusión
 
 \begin_layout Section
 Bibliografía
-\end_layout
-
-\begin_layout Standard
-- Distributed Systems, Principles and Paradigms (2da edition) - Tanenbaum,
- Van Steen.
- 
 \end_layout
 
 \begin_layout Standard
