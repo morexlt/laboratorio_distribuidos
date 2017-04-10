@@ -97,10 +97,6 @@ Moreira Martin, FAI-
 Pesce Fiorella, FAI-213
 \end_layout
 
-\begin_layout Standard
-
-\end_layout
-
 \begin_layout Section
 Introducción
 \end_layout
@@ -214,8 +210,9 @@ Esquema de comunicación
 En una primera instancia, el Cliente solicita al usuario los datos de entrada.
  Esto debería ser, la fecha y el signo deseados separados por un guión.
  Por ejemplo: '25/10/2017-Tauro'.
- Una vez validada la entrada, el Cliente envía esta consulta al Servidor,
- y luego solo espera la respuesta del mismo.
+ /*En nuestro caso los datos se pueden ingresar de cualquier manera siempre
+ y cuando exista una fecha o un signo.*/Una vez validada la entrada, el Cliente
+ envía esta consulta al Servidor, y luego solo espera la respuesta del mismo.
  Al principio, solo se había validado que se ingresara un formato de fecha
  correcto, y un signo que existiese.
  En una segunda instancia, se decidió también considerar que el usuario
@@ -242,9 +239,9 @@ Lo primero que hace el ServidorHilo es verificar en su caché, un hash que
  Si la consulta ya había sido realizada con anterioridad, y la respuesta
  requerida se encuentra en la caché, el thread simplemente devuelve estos
  datos al Cliente.
- En caso contrario, separa la consulta y envía la fecha y el signo al Servidor
- Pronóstico y al Servidor Horósopor respectivamente, para que ellos traten
- con las mismas.
+ En caso contrario, separa la consulta /*en Fecha y Signo*/ y envía la fecha
+ y el signo al Servidor Pronóstico y al Servidor Horósopor respectivamente,
+ para que ellos traten con las mismas.
  
 \end_layout
 
@@ -399,7 +396,13 @@ Cabe aclarar que, un thread Servidor, ya sea hijo del Servidor Central,
  Pronóstico o de Horóscopo, solo atiende una consulta.
  Luego de que devuelven las respuesta que les corresponda, cierran su socket
  y mueren.
- 
+ /*Otro aspecto importante de la implementacion es que las validaciones
+ se realizan mediante expresiones regulares a fin de reducir al minimo los
+ errores.
+ Basicamente en la entrada de datos de cada servidor busca la entrada pertinente
+ y descarta el resto.
+ Si no encuentra ningun dato valido, asume que la entrada es erronea y devuelve
+ un mensaje de error.*/
 \end_layout
 
 \begin_layout Section
