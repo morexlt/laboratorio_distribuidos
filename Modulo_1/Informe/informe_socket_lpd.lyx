@@ -210,13 +210,14 @@ Esquema de comunicación
 En una primera instancia, el Cliente solicita al usuario los datos de entrada.
  Esto debería ser, la fecha y el signo deseados separados por un guión.
  Por ejemplo: '25/10/2017-Tauro'.
- /*En nuestro caso los datos se pueden ingresar de cualquier manera siempre
- y cuando exista una fecha o un signo.*/Una vez validada la entrada, el Cliente
- envía esta consulta al Servidor, y luego solo espera la respuesta del mismo.
+ Una vez validada la entrada, el Cliente envía esta consulta al Servidor,
+ y luego solo espera la respuesta del mismo.
  Al principio, solo se había validado que se ingresara un formato de fecha
  correcto, y un signo que existiese.
- En una segunda instancia, se decidió también considerar que el usuario
- podía solicitar solo el pronóstico o solo el horóscopo.
+ En una segunda instancia, se decidió que los datos se pueden ingresar de
+ cualquier manera siempre y cuando exista una fecha o un signo, de esta
+ manera, se brinda la posibilidad de solicitar solo un servicio.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -239,9 +240,9 @@ Lo primero que hace el ServidorHilo es verificar en su caché, un hash que
  Si la consulta ya había sido realizada con anterioridad, y la respuesta
  requerida se encuentra en la caché, el thread simplemente devuelve estos
  datos al Cliente.
- En caso contrario, separa la consulta /*en Fecha y Signo*/ y envía la fecha
- y el signo al Servidor Pronóstico y al Servidor Horósopor respectivamente,
- para que ellos traten con las mismas.
+ En caso contrario, separa la consulta en Fecha y Signo y los envía al Servidor
+ Pronóstico y al Servidor Horóscopo respectivamente, para que ellos traten
+ con las mismas.
  
 \end_layout
 
@@ -396,13 +397,17 @@ Cabe aclarar que, un thread Servidor, ya sea hijo del Servidor Central,
  Pronóstico o de Horóscopo, solo atiende una consulta.
  Luego de que devuelven las respuesta que les corresponda, cierran su socket
  y mueren.
- /*Otro aspecto importante de la implementacion es que las validaciones
- se realizan mediante expresiones regulares a fin de reducir al minimo los
+ 
+\end_layout
+
+\begin_layout Standard
+Otro aspecto importante de la implementación es que las validaciones se
+ realizan mediante expresiones regulares a fin de reducir al mínimo los
  errores.
- Basicamente en la entrada de datos de cada servidor busca la entrada pertinente
- y descarta el resto.
- Si no encuentra ningun dato valido, asume que la entrada es erronea y devuelve
- un mensaje de error.*/
+ Básicamente, en el ingreso de datos de cada servidor, se busca la entrada
+ pertinente (fecha y/o signo) y se descarta el resto.
+ Si no se encuentra ningún dato válido, asumimos que la entrada es errónea
+ y devuelve un mensaje de error.
 \end_layout
 
 \begin_layout Section
