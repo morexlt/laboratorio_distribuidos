@@ -81,7 +81,31 @@ Laboratorio de Programación Distribuída
 Departamento de Ingeniería de Compuradoras
 \end_layout
 
-\begin_layout Title
+\begin_layout Standard
+\align left
+\begin_inset Graphics
+	filename logfacu.png
+	scale 15
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align right
+\begin_inset Graphics
+	filename logunco.png
+	scale 15
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 
 \end_layout
 
@@ -153,9 +177,11 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\noindent
 \align center
 \begin_inset Graphics
 	filename esquemagral.png
+	scale 50
 	clip
 
 \end_inset
@@ -198,9 +224,11 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\noindent
 \align center
 \begin_inset Graphics
 	filename Principal.png
+	scale 50
 	clip
 
 \end_inset
@@ -306,9 +334,11 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
+\noindent
 \align center
 \begin_inset Graphics
 	filename Fig3.png
+	scale 25
 	clip
 
 \end_inset
@@ -377,9 +407,11 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\noindent
 \align center
 \begin_inset Graphics
 	filename Fig4.png
+	scale 25
 	clip
 
 \end_inset
@@ -408,9 +440,11 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\noindent
 \align center
 \begin_inset Graphics
 	filename Fig5.png
+	scale 25
 	clip
 
 \end_inset
