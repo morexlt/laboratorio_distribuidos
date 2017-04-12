@@ -25,7 +25,7 @@ public class DatosServidor {
         Collections.addAll(horoscoposList, horoscopos);  
     }
 
-    public void actCache(String signo, String horoscopo){
+    public synchronized void actCache(String signo, String horoscopo){
         this.cache.put(signo,horoscopo);
     }
 

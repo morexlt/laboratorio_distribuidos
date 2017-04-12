@@ -11,7 +11,7 @@ public class DatosServidor {
 
     }
 
-    public void actCache(String signo, String datosCompletos){
+    public synchronized void actCache(String signo, String datosCompletos){
         this.cache.put(signo,datosCompletos);
     }
 

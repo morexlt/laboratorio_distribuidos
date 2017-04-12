@@ -29,7 +29,7 @@ public class DatosServidor {
         Collections.addAll(pronosticosList, pronosticos);  
     }
 
-    public void actCache(String signo, String pronostico){
+    public synchronized void actCache(String signo, String pronostico){
         this.cache.put(signo,pronostico);
     }
 

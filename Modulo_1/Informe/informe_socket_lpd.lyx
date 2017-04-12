@@ -26,6 +26,7 @@
 \output_sync 0
 \bibtex_command default
 \index_command default
+\float_placement h
 \paperfontsize default
 \spacing single
 \use_hyperref false
@@ -71,58 +72,219 @@
 
 \begin_body
 
-\begin_layout Standard
-\align center
-Laboratorio de Programación Distribuída
-\end_layout
-
-\begin_layout Standard
-\align center
-Departamento de Ingeniería de Compuradoras
-\end_layout
-
-\begin_layout Standard
-\align left
-\begin_inset Graphics
-	filename logfacu.png
-	scale 15
-	clip
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\align right
-\begin_inset Graphics
-	filename logunco.png
-	scale 15
-	clip
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-
-\end_layout
-
 \begin_layout Title
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=2cm]{logfacu.png}
+\backslash
+hspace*{7.10cm}~%    
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=2cm]{logunco.png}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+[3cm]
+\end_layout
+
+\end_inset
+
+Laboratorio de Programación Distribuída
+\begin_inset Newline newline
+\end_inset
+
+Departamento de Ingeniría de Computadoras
+\end_layout
+
+\begin_layout Author
+Pesce Fiorella FAI 213
+\begin_inset Newline newline
+\end_inset
+
+Moreira Martin FAI 453
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList figure
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
 Laboratorio I
-\end_layout
-
-\begin_layout Standard
-Integrantes:
-\end_layout
-
-\begin_layout Standard
-Moreira Martin, FAI-
-\end_layout
-
-\begin_layout Standard
-Pesce Fiorella, FAI-213
 \end_layout
 
 \begin_layout Section
@@ -228,7 +390,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename Principal.png
-	scale 50
+	scale 40
 	clip
 
 \end_inset
@@ -338,7 +500,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename Fig3.png
-	scale 25
+	scale 30
 	clip
 
 \end_inset
@@ -486,6 +648,27 @@ Otro aspecto importante de la implementación es que las validaciones se
 
 \begin_layout Section
 Conclusión
+\end_layout
+
+\begin_layout Standard
+Luego de haber implementado la solucion del problema planteado, se concluye
+ que la programación distribuida implementada mediante sockets, es un tanto
+ compleja de manejar ya que hay muchas situaciones en donde la comunicacion
+ entre dos procesos distribuidos puede romperse.
+ No así la implementación debido a que en pocas lineas de codigo pudimos
+ experimentar la interacción entre cuatro estaciones (en este caso locales)
+ distribuidas.
+\end_layout
+
+\begin_layout Standard
+En nuestro caso al validar todas las comunicaciones existentes, pudimos
+ salvar muchos de los errores que existian y así generar una estabilidad
+ considerable.
+ Por lo tanto se puede apreciar que en un tiempo reducido pudimos cubrir
+ los aspectos principales de la comunicación via socket en el lenguaje Java
+ y poder experimentar problemas que existen en una aplicación real, como
+ el uso de caché, la validación de la entrada de datos, así como también
+ la ayuda para el uso del sistema distribuido.
 \end_layout
 
 \begin_layout Section
