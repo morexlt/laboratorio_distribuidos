@@ -1,0 +1,3 @@
+grant codeBase "file:/home/tano/Escritorio/LPD/tps/RMI/Ej1/" {
+    permission java.security.AllPermission;
+};
