@@ -284,7 +284,7 @@ bigskip
 \end_layout
 
 \begin_layout Part
-Laboratorio I
+Laboratorio Ii
 \end_layout
 
 \begin_layout Section
@@ -298,21 +298,32 @@ El problema planteado por la cátedra y que se procede a resolver en el presente
  La idea central del ejercicio, es que uno o varios Clientes solicitan a
  un Servidor, las predicciones del clima y del horóscopo según la fecha
  y el signo ingresados respectivamente.
- Para el mismo, se especifica que se utilicen las primitivas de programación
- de sockets de tipo Stream.
+ Para el mismo, se especifica que se utilice una aplicación distribuída
+ RMI (Remote Method Invocation).
+ 
 \end_layout
 
 \begin_layout Standard
 El punto clave se encuentra en que se puedan comprender los conceptos básicos
- de la comunicación en sistemas distribuidos, soportada por el modelo orientado
- a mensajes ofrecido por la capa de transporte, mediante la utilización
- de sockets.
- Conceptualmente, un socket es un punto final de comunicación sobre el cual
- una aplicación puede escribir datos que deben ser enviados sobre la red
- subyaente, y desde la cual la información entrante puede ser leída.
- Un socket forma una abstracción sobre el actual punto final de comunicación
- real usado por el sistema opertivo local para un específico protocolo de
- transporte.
+ de la comunicación en sistemas distribuidos, soportada por la invocación
+ remota de métodos pertenecienes a objetos que han sido previamente comunicados
+ o expuestos a través de la red.
+ Dicha invocación es soportada mediante una arquitectura de cuatro capas.
+ La primera capa es la de aplicación y se corresponde con la implementación
+ real de las aplicaciones cliente y servidor.
+ En ella tienen lugar las llamadas a alto nivel para acceder y exportar
+ objetos remotos.
+ La capa número 2 es la Proxy.
+ Esta capa es la que interactúa directamente con la capa de aplicación.
+ Todas las llamadas a objetos remotos y acciones junto con sus parámetros
+ y retorno de objetos tienen lugar en ella.
+ La capa número 3 es la de referencia remota, y es responsable del manejo
+ de la parte semántica de las invocaciones remotas.
+ También es responsable de la gestión de la replicación de objetos y realización
+ de tareas específicas de la implementación con los objetos remotos.
+ Finalmente, la cuarta capa es la de transporte, responsable de manejar
+ las conexiónes correspondientes y el transpaso de datos de una máquina
+ a otra; el protocolo subyacete para RMI es JRMP (Java Remote Method Protocol).
  
 \end_layout
 
