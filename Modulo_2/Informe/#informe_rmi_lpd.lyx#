@@ -707,11 +707,7 @@ Como trabajos futuros, es posible mencionar que puede optimizarse el uso
  Si bien actualmente se manejan tres cachés, cada una en un Servidor, podría
  modificarse la estructura general que hemos planteado para que la caché
  se encuentre sólo en el Servidor PronosHoros; de ser así, esta debería
- permitir la consulta de resultados previamente almacenados tanto de Fecha
- como de Signo por separado - y no ligados como actualmente se realiza -.
- Debería estudiarse si la mejor manera de hacer esto es con una sola caché
- o con dos para distinguir los diferentes tipos de elementos en ella almacenada.
- 
+ permitir la consulta de resultados previamente almacenados 
 \end_layout
 
 \begin_layout Section
