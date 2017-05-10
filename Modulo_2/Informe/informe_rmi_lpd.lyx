@@ -503,10 +503,6 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
@@ -640,12 +636,20 @@ A continuación se detallan los pasos a seguir para poner en funcionamiento
 \end_layout
 
 \begin_layout Standard
-3- En cada terminal se inicia el registro RMI de la siguiente manera
+3- En cada terminal se inicia el registro RMI de la siguiente manera 
+\begin_inset Quotes eld
+\end_inset
+
+rmiregistry PORT &
+\begin_inset Quotes erd
+\end_inset
+
+ donde PORT es el puerto
 \end_layout
 
 \begin_layout Standard
 4- En las tres terminales correspondientes, se ejecutan los Servidores de
- esta manera:
+ esta manera: 'java Servidor PORT' en donde PORT es el puerto
 \end_layout
 
 \begin_layout Standard
