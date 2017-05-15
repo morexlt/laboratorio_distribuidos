@@ -682,6 +682,8 @@ Luego de haber implementado la solución del problema planteado, se concluye
 rmente si estos son locales o remotos.
  Por lo tanto creemos que la implementación ha sido mucho mas sencilla en
  comparación.
+ Otra ventaja importante es que como programadores nos hemos visto desligados
+ de creación de threads para le manejo de consultas en paralelo.
 \end_layout
 
 \begin_layout Standard

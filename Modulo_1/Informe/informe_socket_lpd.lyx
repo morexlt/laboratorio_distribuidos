@@ -653,14 +653,59 @@ Otro aspecto importante de la implementación es que las validaciones se
 \end_layout
 
 \begin_layout Section
-Conclusión
+Instrucciones de Uso
+\end_layout
+
+\begin_layout Standard
+A continuación se detallan los pasos a seguir para poner en funcionamiento
+ tantos los distintos servidores como el cliente, y poder realizar las pruebas
+ que correspondan.
+\end_layout
+
+\begin_layout Standard
+1- Deben abrirse cuatro terminales, una debe estar situada en la carpeta
+ Cliente y el resto en cada uno de los servidores (Servidor, ServidorPronóstico
+ y ServidorHoróscopo)
+\end_layout
+
+\begin_layout Standard
+2- En cada terminal, se compila el archivo que corresponda (MainCliente
+ o Servidor).
+ La forma de realizar esto es escribir el comando javac NombreArchivo.
+ 
+\end_layout
+
+\begin_layout Standard
+3- En las tres terminales correspondientes, se ejecutan los Servidores de
+ esta manera: 'java Servidor PORT' en donde PORT es el puerto
+\end_layout
+
+\begin_layout Standard
+4- Se ejecuta el Cliente y ya se esta en condiciones de iniciar el uso del
+ sistema 
+\end_layout
+
+\begin_layout Standard
+5- Se ingresa la fecha y el signo deseados para la consulta con el siguiente
+ formato: 'DD/MM/AAAA-Signo' en la terminal del Cliente
+\end_layout
+
+\begin_layout Standard
+6- Se obtiene la respuesta pertinente
+\end_layout
+
+\begin_layout Section
+Limitaciones, conclusión y trabajo futuro
 \end_layout
 
 \begin_layout Standard
 Luego de haber implementado la solución del problema planteado, se concluye
  que la programación distribuida soportada mediante sockets, es un tanto
  compleja de manejar ya que hay muchas situaciones en donde la comunicación
- entre dos procesos distribuidos puede romperse.
+ entre dos procesos distribuidos puede romperse; además, es una limitación
+ que sea el programador el que deba asegurarse de que se establezca la conexión
+ y que las consultas se puedan procesar de manera paralela, ya que debe
+ encargarse de la creación e inicio de threads.
  Sin embargo, la implementación es mucho más sencilla debido a que en pocas
  lineas de codigo pudimos experimentar la interacción entre cuatro estaciones
  (en este caso locales) distribuidas.
@@ -675,6 +720,13 @@ En nuestro caso, al validar todas las comunicaciones existentes, pudimos
  Java, y experimentar problemas que existen en una aplicación real, como
  el uso de caché, la validación de la entrada de datos, así como también
  la ayuda para el uso del sistema distribuido.
+\end_layout
+
+\begin_layout Standard
+Como trabajo futuro podemos mencionar, formar más eficientes de manejar
+ la caché, ya sea a través de otra estructura de almacenamiento, así como
+ también el dónde se encuentra esta disponible.
+ 
 \end_layout
 
 \begin_layout Section
