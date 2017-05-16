@@ -20,8 +20,31 @@ public class Servidor {
         }
 
         try{
+
+            System.out.println("Servidor> Etapa de Configuracion");  
+            BufferedReader brRequest = new BufferedReader(new InputStreamReader(System.in)); 
+            System.out.println("Servidor> Ingrese el host en donde se encuentra el ServidorHoroscopo");  
+            System.out.println("Servidor> (localhost)");  
+            String hosth = brRequest.readLine();  
+
+            System.out.println("Servidor> Ingrese el puerto en donde se encuentra el ServidorHoroscopo");  
+            //System.out.println("Servidor> (54323)");  
+            String porth = brRequest.readLine();    
+
+            System.out.println("Servidor> Ingrese el host en donde se encuentra el ServidorPronostico");  
+            System.out.println("Servidor> (localhost)");  
+            String hostp = brRequest.readLine();  
+
+            System.out.println("Servidor> Ingrese el puerto en donde se encuentra el ServidorPronostico");  
+            //System.out.println("Servidor> (54323)");  
+            String portp = brRequest.readLine();    
+
+            String uriH = hosth+":"+porth;
+            String uriP = hostp+":"+portp;
+
+
             DatosServidor datosServidor = new DatosServidor();
-            PronosHoros pronhoros = new PronosHorosImp(datosServidor);
+            PronosHoros pronhoros = new PronosHorosImp(datosServidor,uriH,uriP);
             Naming.rebind("rmi://localhost:"+args[0]+"/PronosHorosImp",pronhoros);
         }catch (RemoteException e) {
             System.err.println("Error de comunicacion: " + e.toString());

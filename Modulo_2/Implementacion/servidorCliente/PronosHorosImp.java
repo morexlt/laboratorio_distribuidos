@@ -12,9 +12,13 @@ import java.util.regex.*;
 public class PronosHorosImp extends UnicastRemoteObject implements PronosHoros
 {
     private DatosServidor datosServidor;
-    protected PronosHorosImp(DatosServidor datosServidor) throws RemoteException { 
+    private String urih;
+    private String urip;
+    protected PronosHorosImp(DatosServidor datosServidor,String uriH,String uriP) throws RemoteException { 
         super();
         this.datosServidor = datosServidor;
+        this.urih = uriH;
+        this.urip = uriP;
     }
    
     public String getPronosHoros(String fecha, String signo) throws RemoteException { 
@@ -68,7 +72,9 @@ public class PronosHorosImp extends UnicastRemoteObject implements PronosHoros
                         //---------------------------------------------------
                         //              Server de Pronostico
                         //---------------------------------------------------
-                        Pronostico pron = (Pronostico)Naming.lookup("//localhost:54322/PronosticoImp");
+                        System.out.println("la urip -> " + urip);
+
+                        Pronostico pron = (Pronostico)Naming.lookup("//"+urip+"/PronosticoImp");
                         respuestaPron = pron.getPronostico(fecha);
 
                     }else{
@@ -79,7 +85,9 @@ public class PronosHorosImp extends UnicastRemoteObject implements PronosHoros
                         //---------------------------------------------------
                         //              Server de Horoscopo
                         //---------------------------------------------------
-                        Horoscopo horo = (Horoscopo)Naming.lookup("//localhost:54321/HoroscopoImp");
+                        System.out.println("la urih -> " + urih);
+
+                        Horoscopo horo = (Horoscopo)Naming.lookup("//"+urih+"/HoroscopoImp");
                         respuestaHoros = horo.getHoroscopo(signo);
                     }else{
                         respuestaHoros = "";
@@ -148,7 +156,7 @@ public class PronosHorosImp extends UnicastRemoteObject implements PronosHoros
                         //---------------------------------------------------
                         //              Server de Pronostico
                         //---------------------------------------------------
-                        Pronostico pron = (Pronostico)Naming.lookup("//localhost:54321/PronosticoImp");
+                        Pronostico pron = (Pronostico)Naming.lookup("//"+urip+"/PronosticoImp");
                         respuestaPron = pron.getPronostico(fecha);
 
                     }else{
@@ -214,7 +222,7 @@ public class PronosHorosImp extends UnicastRemoteObject implements PronosHoros
                         //---------------------------------------------------
                         //              Server de Horoscopo
                         //---------------------------------------------------
-                        Horoscopo horo = (Horoscopo)Naming.lookup("//localhost:54322/HoroscopoImp");
+                        Horoscopo horo = (Horoscopo)Naming.lookup("//"+urih+"/HoroscopoImp");
                         respuestaHoros = horo.getHoroscopo(signo);
                     }else{
                         respuestaHoros = "";

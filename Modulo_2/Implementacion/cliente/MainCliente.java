@@ -28,20 +28,28 @@ public class MainCliente {
         String fecha = "";
 
         try {            
-            System.out.println("Cliente> Inicio");  
+            System.out.println("Cliente> Etapa de Configuracion");  
+            BufferedReader brRequest = new BufferedReader(new InputStreamReader(System.in)); 
+            System.out.println("Cliente> Ingrese el host en donde se encuentra el ClienteServidor");  
+            System.out.println("Cliente> (localhost)");  
+            String host = brRequest.readLine();  
+
+            System.out.println("Cliente> Ingrese el puerto en donde se encuentra el ClienteServidor");  
+            //System.out.println("Cliente> (54323)");  
+            String port = brRequest.readLine();    
+
             while( !exit ){    
                                     
                 errorFecha = false;
                 errorSigno = false;
 
                    
-                PronosHoros pronosHoros = (PronosHoros)Naming.lookup ("//localhost:54323/PronosHorosImp");
+                PronosHoros pronosHoros = (PronosHoros)Naming.lookup ("//"+host+":"+port+"/PronosHorosImp");
 
                 
 
 
 
-                BufferedReader brRequest = new BufferedReader(new InputStreamReader(System.in));            
                 System.out.println("Cliente> Escriba comando");                
                 request = brRequest.readLine();   
 

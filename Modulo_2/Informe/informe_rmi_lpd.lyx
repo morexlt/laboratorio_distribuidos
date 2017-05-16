@@ -435,21 +435,14 @@ En una primera instancia, el Cliente solicita al usuario los datos de entrada.
  la diferencia radica en que PronosHoros es la clase que implementa los
  metodos que en ella figuran.
  Además, y para que puedan ser invocados, debe haberlos registrado en Registry,
- que es el que se encarga de hacer 
-\begin_inset Quotes eld
-\end_inset
-
-visibles
-\begin_inset Quotes erd
-\end_inset
-
- estos métodos para que los Clientes puedan invocarlos.
+ que es el que se encarga de hacer “visibles” esta clase en forma de objeto
+ remoto para que los Clientes puedan invocar los métodos.
  Al principio, solo se había validado que se ingresara un formato de fecha
  correcto, y un signo que existiese.
  En una segunda instancia, se decidió que los datos se pueden ingresar de
  cualquier manera siempre y cuando exista una fecha o un signo, de esta
  manera, se brinda la posibilidad de solicitar solo un servicio.
- Para ver estas posibilidades, se debe escribir el comando 'manpage'.
+ Para ver estas posibilidades, se debe escribir el comando 'help'.
 \end_layout
 
 \begin_layout Standard
@@ -508,7 +501,7 @@ status open
 \begin_inset Graphics
 	filename Fig3.png
 	lyxscale 10
-	scale 30
+	scale 36
 	clip
 
 \end_inset
@@ -525,13 +518,38 @@ Comunicación Cliente-Servidor
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Tanto el Cliente como el ServidorCliente tienen conocimiento de la interfaz
+ PronosHoros, la cual define los metodos necesarios para obtener la información.
+\end_layout
+
+\begin_layout Standard
+El que implementa esa interfaz, en este caso el Servidor, está obligado
+ a exponer el objeto remoto en el registry mediante un domain especificando
+ un host, puerto y un nombre del objeto.
+ En nuestro caso localhost:port/PornosHorosImp.
+\end_layout
+
+\begin_layout Standard
+Cuando el Cliente realiza una consulta, se verifica mediante expresiones
+ regulares que los datos ingresados sean correctos, para luego invocar al
+ método remoto.
+ En el caso de que el par de datos este mal ingresado, se notifica y se
+ piden los datos nuevamente.
+ Sin embargo si al menos un dato se encuentra ingresado de forma correcta,
+ el Cliente procede a hacer la consulta que corresponde a ese dato solamente.
+\end_layout
+
+\begin_layout Standard
+Tomando por sentado que los datos se ingresaron correctamente, se invoca
+ del objeto remoto el método getPronosHoros, el cual necesita fecha y signo
+ como parámetros, luego este se ejecuta remotamente en el servidor, en el
+ cual este realiza la verificación de la caché como se explicó anteriormente.
 \end_layout
 
 \begin_layout Standard
@@ -546,7 +564,7 @@ status open
 \begin_inset Graphics
 	filename Fig4.png
 	lyxscale 10
-	scale 25
+	scale 36
 	clip
 
 \end_inset
@@ -569,6 +587,23 @@ Comunicación Servidor-ServidorPronóstico
 \end_layout
 
 \begin_layout Standard
+Las conexiones de ServidorCliente con ServidorHoroscopo y ServidorPronostico
+ son muy similares a la anterior explicada.
+ Los dos servidores - horoscopo y pronostico - deben exponer el objeto remoto
+ a fin de poder obtenerlo mediante el registry para su posterior utilización.
+\end_layout
+
+\begin_layout Standard
+ServidorCliente valida las entradas, para luego verificar su caché.
+ Si necesita nueva información, hace uso de los objetos remotos realizando
+ getPronostico enviando la fecha o getHoroscopo enviando el signo.
+ En la implementación de esos métodos (muy similares) se debe buscar en
+ caché y si no se encuentra generar una salida.
+ Esta salida se almacena en el caché y se retorna al servidorCliente, el
+ cual a su vez, guarda esa respuesta en caché y la retorna al cliente.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -580,7 +615,7 @@ status open
 \begin_inset Graphics
 	filename Fig5.png
 	lyxscale 10
-	scale 25
+	scale 36
 	clip
 
 \end_inset
@@ -603,9 +638,8 @@ Comunicación Servidor-ServidorHoroscopo
 \end_layout
 
 \begin_layout Standard
-Otro aspecto importante de la implementación es que las validaciones se
- realizan mediante expresiones regulares a fin de reducir al mínimo los
- errores.
+Como se menciono anteriormente las validaciones se realizan mediante expresiones
+ regulares a fin de reducir al mínimo los errores.
  Básicamente, en el ingreso de datos de cada servidor, se busca la entrada
  pertinente (fecha y/o signo) y se descarta el resto.
  Si no se encuentra ningún dato válido, asumimos que la entrada es errónea
@@ -622,21 +656,21 @@ A continuación se detallan los pasos a seguir para poner en funcionamiento
  que correspondan.
 \end_layout
 
-\begin_layout Standard
-1- Deben abrirse cuatro terminales, una debe estar situada en la carpeta
- Cliente y el resto en cada uno de los servidores (Servidor, ServidorPronóstico
+\begin_layout Enumerate
+Deben abrirse cuatro terminales, una debe estar situada en la carpeta Cliente
+ y el resto en cada uno de los servidores (Servidor, ServidorPronóstico
  y ServidorHoróscopo)
 \end_layout
 
-\begin_layout Standard
-2- En cada terminal, se compila el archivo que corresponda (MainCliente
- o Servidor).
+\begin_layout Enumerate
+En cada terminal, se compila el archivo que corresponda (MainCliente o Servidor).
  La forma de realizar esto es escribir el comando javac NombreArchivo.
  
 \end_layout
 
-\begin_layout Standard
-3- En cada terminal se inicia el registro RMI de la siguiente manera 
+\begin_layout Enumerate
+En las terminales de ServidorCliente, ServidorHoroscopo y ServidorPronostico
+ se inicia el registro RMI de la siguiente manera 
 \begin_inset Quotes eld
 \end_inset
 
@@ -644,26 +678,34 @@ rmiregistry PORT &
 \begin_inset Quotes erd
 \end_inset
 
- donde PORT es el puerto
+ donde PORT es el puerto elegido
 \end_layout
 
-\begin_layout Standard
-4- En las tres terminales correspondientes, se ejecutan los Servidores de
- esta manera: 'java Servidor PORT' en donde PORT es el puerto
+\begin_layout Enumerate
+En las tres terminales correspondientes, se ejecutan los Servidores de Pronostic
+o y Horocopo de esta manera: 'java Servidor PORT' en donde PORT es el puerto
+ elegido (debe coincidir con el que elegimos en el rmiregistry)
 \end_layout
 
-\begin_layout Standard
-5- Se ejecuta el Cliente y ya se esta en condiciones de iniciar el uso del
+\begin_layout Enumerate
+En el caso del ServidorCliente, debemos seguir la etapa de configuracion
+ en donde ingresamos host y port de los servidores de Horoscopo y Pronostico.
+\end_layout
+
+\begin_layout Enumerate
+Se ejecuta el Cliente siguiendo la etapa de configuracion en donde tenemos
+ que brindarle el host donde vamos a realizar las consultas (ServidorCliente),
+ asi como el puerto, para luego estar en condiciones de iniciar el uso del
  sistema 
 \end_layout
 
-\begin_layout Standard
-6- Se ingresa la fecha y el signo deseados para la consulta con el siguiente
+\begin_layout Enumerate
+Se ingresa la fecha y el signo deseados para la consulta con el siguiente
  formato: 'DD/MM/AAAA-Signo' en la terminal del Cliente
 \end_layout
 
-\begin_layout Standard
-7- Se obtiene la respuesta pertinente
+\begin_layout Enumerate
+Se obtiene la respuesta pertinente
 \end_layout
 
 \begin_layout Section
