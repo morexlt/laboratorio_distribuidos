@@ -4,7 +4,7 @@ import javax.xml.ws.Endpoint;
 public class PronosticoPublisher{
  
 	public static void main(String[] args) {
-	   Endpoint.publish("http://localhost:7780/ws/pronostico", new PronosticoImpl());
+	   Endpoint.publish("http://localhost:7781/ws/pronostico", new PronosticoImpl());
     }
  
 }

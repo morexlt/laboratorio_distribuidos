@@ -9,13 +9,11 @@ public class PronosticoImpl implements Pronostico{
 	protected DatosServidor datosServidor;
 
 
-   protected PronosticoImpl() { 
-	   super();
-	   this.datosServidor= new DatosServidor();
-   }
-
    @Override
     public String getPronostico(String fecha) { 
+	   if(this.datosServidor==null){
+		   inicializar();
+	   }
 	   String fechaFormat = "";
        String result="";
        boolean error = false;
@@ -53,6 +51,10 @@ public class PronosticoImpl implements Pronostico{
        }
 
        return fecha+" es "+result;
+   }
+   
+   private void inicializar(){
+	   this.datosServidor= new DatosServidor();
    }
 
 }

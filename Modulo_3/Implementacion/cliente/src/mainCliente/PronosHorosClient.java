@@ -29,6 +29,7 @@ public class PronosHorosClient{
 
         try {            
             System.out.println("Cliente> Inicio");  
+            
             while( !exit ){    
                                     
                 errorFecha = false;
@@ -36,9 +37,10 @@ public class PronosHorosClient{
 
                    
                 //PronosHoros pronosHoros = (PronosHoros)Naming.lookup ("//localhost:54323/PronosHorosImp");
-                URL url = new URL("http://localhost:7780/ws/PronosHoros?wsdl");
-            	QName qname = new QName("http://sc/", "PronosHorosImpl");
+                URL url = new URL("http://localhost:7779/ws/PronosHoros?wsdl");
+            	QName qname = new QName("http://sc/", "PronosHorosImplService");
         	    Service service = Service.create(url, qname);
+               
                 PronosHoros  pronosHoros = service.getPort(PronosHoros.class);
                 
                 

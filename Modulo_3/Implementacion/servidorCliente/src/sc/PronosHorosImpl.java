@@ -4,28 +4,28 @@ import javax.jws.WebService;
 import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
+
+import sc.DatosServidor;
+
 import java.net.MalformedURLException;
 
 import java.util.*;
-import java.text.*;
 
-import java.util.List;
 import java.util.regex.*;
 //Service Implementation
+//@WebService(endpointInterface = "sc.PronosHoros")
+
 @WebService(endpointInterface = "sc.PronosHoros")
 public class PronosHorosImpl implements PronosHoros{
 	
 	protected DatosServidor datosServidor;
 
-	protected PronosHorosImpl() { 
-		super(); 
-		this.datosServidor = new DatosServidor();
-		
-	}
-   
 
 	@Override
 	public String getPronosHoros(String fecha, String signo) throws MalformedURLException {
+		if(this.datosServidor==null){
+			   inicializar();
+		}
 		String fechaFormat = "";
         String result="";
         boolean error = false;
@@ -78,8 +78,8 @@ public class PronosHorosImpl implements PronosHoros{
                         //---------------------------------------------------
 
                                           
-                    	URL url = new URL("http://localhost:7780/ws/pronostico?wsdl");
-                    	QName qname = new QName("http://sp/", "PronosticoImpl");
+                    	URL url = new URL("http://localhost:7781/ws/pronostico?wsdl");
+                    	QName qname = new QName("http://sp/", "PronosticoImplService");
                 	    Service service = Service.create(url, qname);
                         Pronostico  pronos = service.getPort(Pronostico.class);
                         respuestaPron = pronos.getPronostico(fecha);
@@ -94,7 +94,7 @@ public class PronosHorosImpl implements PronosHoros{
                         //---------------------------------------------------
                         
                         URL url = new URL("http://localhost:7780/ws/horoscopo?wsdl");
-                    	QName qname = new QName("http://sh/", "HoroscopoImpl");
+                    	QName qname = new QName("http://sh/", "HoroscopoImplService");
                 	    Service service = Service.create(url, qname);
                         Horoscopo  horos = service.getPort(Horoscopo.class);
                         respuestaHoros = horos.getHoroscopo(signo);
@@ -167,8 +167,8 @@ public class PronosHorosImpl implements PronosHoros{
                         //              Server de Pronostico
                         //---------------------------------------------------
                         
-                    	URL url = new URL("http://localhost:7780/ws/pronostico?wsdl");
-                    	QName qname = new QName("http://sp/", "PronosticoImpl");
+                    	URL url = new URL("http://localhost:7781/ws/pronostico?wsdl");
+                    	QName qname = new QName("http://sp/", "PronosticoImplService");
                 	    Service service = Service.create(url, qname);
                         Pronostico  pronos = service.getPort(Pronostico.class);
                         respuestaPron = pronos.getPronostico(fecha);
@@ -241,7 +241,7 @@ public class PronosHorosImpl implements PronosHoros{
                         //              Server de Horoscopo
                         //---------------------------------------------------
                         URL url = new URL("http://localhost:7780/ws/horoscopo?wsdl");
-                    	QName qname = new QName("http://sh/", "HoroscopoImpl");
+                    	QName qname = new QName("http://sh/", "HoroscopoImplService");
                 	    Service service = Service.create(url, qname);
                         Horoscopo  horos = service.getPort(Horoscopo.class);
                         respuestaHoros = horos.getHoroscopo(signo);
@@ -267,7 +267,9 @@ public class PronosHorosImpl implements PronosHoros{
 		
 	}
   
-
+	private void inicializar(){
+		   this.datosServidor= new DatosServidor();
+	}
    
 }
 

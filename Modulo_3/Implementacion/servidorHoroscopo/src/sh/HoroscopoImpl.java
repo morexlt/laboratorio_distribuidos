@@ -1,6 +1,9 @@
 package sh;
 
 import javax.jws.WebService;
+
+import sh.DatosServidor;
+
 import java.util.*;
 import java.text.*;
 
@@ -10,13 +13,13 @@ public class HoroscopoImpl implements Horoscopo{
 	
 	protected DatosServidor datosServidor;
 
-protected HoroscopoImpl() {
-	super(); 
-	this.datosServidor = new DatosServidor();
-}
+
 
    @Override
     public String getHoroscopo (String signo) { 
+	   if(this.datosServidor==null){
+		   inicializar();
+	   }
 	   int t =0;
        String result="";
        boolean error = false;
@@ -59,6 +62,10 @@ protected HoroscopoImpl() {
        }
 
        return result;
+   }
+   
+   private void inicializar(){
+	   this.datosServidor= new DatosServidor();
    }
 
 }
