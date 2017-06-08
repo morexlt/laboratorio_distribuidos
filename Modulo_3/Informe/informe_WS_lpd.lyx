@@ -424,14 +424,20 @@ En una primera instancia, el Cliente solicita al usuario los datos de entrada.
  Esto debería ser, la fecha y el signo deseados separados por un guión.
  Por ejemplo: '25/10/2017-Tauro'.
  Una vez validada la entrada, el Cliente invoca el método getPronosHoros
- que pertenece a la clase PronosHoros y simplemente espera la respuesta.
- Para poder realizar esto, ambas clases tienen conocimiento de la interfaz,
- la diferencia radica en que PronosHoros es la clase que implementa los
- metodos que en ella figuran.
- Además, y para que puedan ser invocados, debe haberlos registrado en Registry,
- que es el que se encarga de hacer “visibles” esta clase en forma de objeto
- remoto para que los Clientes puedan invocar los métodos.
- Al principio, solo se había validado que se ingresara un formato de fecha
+ que pertenece a la interfaz PronosHoros y simplemente espera la respuesta.
+ Para poder realizar esto, en una primera instancia, se ha definido la interfaz
+ PronosHoros, y es la que conoce el cliente y la cual invoca.
+ La conoce porque esta ha sido previamente publicada (a través de a clase
+ PronosHorosPublisher), es decir, se ha especificado un Web Service públicamente
+ de modo que pueda ser accedido por otras aplicaciones.
+ Por otro lado, la implementación de los métodos especificados en la interfaz
+ se encuentran en la clase PronosHorosImpl.
+ Dicha implementación es desconocida por el Cliente, y pertenece al Servidor.
+ 
+\end_layout
+
+\begin_layout Standard
+Al principio, solo se había validado que se ingresara un formato de fecha
  correcto, y un signo que existiese.
  En una segunda instancia, se decidió que los datos se pueden ingresar de
  cualquier manera siempre y cuando exista una fecha o un signo, de esta
@@ -440,12 +446,11 @@ En una primera instancia, el Cliente solicita al usuario los datos de entrada.
 \end_layout
 
 \begin_layout Standard
-Mientras el Cliente espera, la clase PronosHoros en la implementación de
- su método get tiene que conseguir la respuesta; para esto, lo que hace
+Mientras el Cliente espera, la clase PronosHorosImpl en la implementación
+ de su método get tiene que conseguir la respuesta; para esto, lo que hace
  es como primer paso, verificar que en su caché, un hash que nosotros llamamos
  DatosServidor, que no tenga la información que le ha sido solicitada.
- Este hash le es pasado como parámetro al momento de su creación, de la
- cual está encargado el Servidor.
+ Este hash ES INICIALIZADO GILADA, de la cual está encargado el Servidor.
  Si la consulta ya había sido realizada con anterioridad, y la respuesta
  requerida se encuentra en la caché, el método simplemente retorna estos
  datos.
@@ -463,19 +468,19 @@ La forma de operar de estas dos clases es la misma, más allá de que manejan
  PronosHoros; si no, estan encargados de generar la respuesta, almacenarla
  en la caché y luego retornarla.
  Por supuesto, como la invocación de los métodos de estas clases también
- es remota, previamente ambas interfaces se deben haber registrado en el
- Registry; cabe aclarar que esta tarea esta a cargo de cada Servidor pertinente.
- 
+ es a través de Web Services, las interfaces correspondientes previamente
+ deben haber sido publicadas (PronosticoPublisher y HoroscopoPublisher);
+ cabe aclarar que esta tarea esta a cargo de cada Servidor Pertinente.
 \end_layout
 
 \begin_layout Standard
-Finalmente, cuando PronosHoros recibe la respuesta al método get, actualiza
+Finalmente, cuando PronosHorosImpl recibe la respuesta al método get, actualiza
  su respectivo Datos Servidor, y luego devuelve la respuesta conjunta al
  Cliente.
 \end_layout
 
 \begin_layout Standard
-Con esto se ha descrito a grandes rasgos la forma de resolver le problema
+Con esto se ha descrito a grandes rasgos la forma de resolver el problema
  planteado.
  Ahora se procederá a explicar con un poco más de detalle el funcionamiento
  de cada clase.
@@ -524,15 +529,17 @@ Tanto el Cliente como el ServidorCliente tienen conocimiento de la interfaz
 
 \begin_layout Standard
 El que implementa esa interfaz, en este caso el Servidor, está obligado
- a exponer el objeto remoto en el registry mediante un domain especificando
- un host, puerto y un nombre del objeto.
- En nuestro caso localhost:port/PornosHorosImp.
+ a publicarla mediante un domain especificando un host, puerto y el nombre
+ de la interfaz.
+ En nuestro caso localhost:port/PornosHoros.
+ Además se especifica cual es la clase que implementa dicha interfaz (PronosHoro
+sImpl).
 \end_layout
 
 \begin_layout Standard
 Cuando el Cliente realiza una consulta, se verifica mediante expresiones
- regulares que los datos ingresados sean correctos, para luego invocar al
- método remoto.
+ regulares que los datos ingresados sean correctos, para luego solicitar
+ el servicio.
  En el caso de que el par de datos este mal ingresado, se notifica y se
  piden los datos nuevamente.
  Sin embargo si al menos un dato se encuentra ingresado de forma correcta,
@@ -541,9 +548,9 @@ Cuando el Cliente realiza una consulta, se verifica mediante expresiones
 
 \begin_layout Standard
 Tomando por sentado que los datos se ingresaron correctamente, se invoca
- del objeto remoto el método getPronosHoros, el cual necesita fecha y signo
- como parámetros, luego este se ejecuta remotamente en el servidor, en el
- cual este realiza la verificación de la caché como se explicó anteriormente.
+ el servicio deseado a través del método getPronosHoros, el cual necesita
+ fecha y signo como parámetros, luego este se ejecuta en el servidor, realizando
+ la verificación de la caché como se explicó anteriormente.
 \end_layout
 
 \begin_layout Standard
@@ -583,14 +590,17 @@ Comunicación Servidor-ServidorPronóstico
 \begin_layout Standard
 Las conexiones de ServidorCliente con ServidorHoroscopo y ServidorPronostico
  son muy similares a la anterior explicada.
- Los dos servidores - horoscopo y pronostico - deben exponer el objeto remoto
- a fin de poder obtenerlo mediante el registry para su posterior utilización.
+ Los dos servidores - horoscopo y pronostico - deben publicar cual es la
+ interfaz que ofrecen y qué clase corresponde a la implementación de los
+ métodos especificados en dicha interfaz, para que así cualquier Cliente
+ pueda invocar esos Web Services según sus necesidades.
+ 
 \end_layout
 
 \begin_layout Standard
 ServidorCliente valida las entradas, para luego verificar su caché.
- Si necesita nueva información, hace uso de los objetos remotos realizando
- getPronostico enviando la fecha o getHoroscopo enviando el signo.
+ Si necesita nueva información, hace uso de los Web Services mencionados,
+ realizando getPronostico enviando la fecha o getHoroscopo enviando el signo.
  En la implementación de esos métodos (muy similares) se debe buscar en
  caché y si no se encuentra generar una salida.
  Esta salida se almacena en el caché y se retorna al servidorCliente, el
@@ -657,28 +667,49 @@ Deben abrirse cuatro terminales, una debe estar situada en la carpeta Cliente
 \end_layout
 
 \begin_layout Enumerate
-En cada terminal, se compila el archivo que corresponda (MainCliente o Servidor).
- La forma de realizar esto es escribir el comando javac NombreArchivo.
- 
+En cada terminal que corresponda a un servidor, se genera el wsdl.
+ La forma de hacer esto es: 
+\begin_inset Quotes eld
+\end_inset
+
+wsgen -keep -cp .
+ nombrePackage.nombreClaseImpl
+\begin_inset Quotes erd
+\end_inset
+
+.
+ En nuestro caso por ejemplo: 
+\begin_inset Quotes eld
+\end_inset
+
+wsgen -keep -cp .
+ sc.PronosHorosImpl
+\begin_inset Quotes erd
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
 En las terminales de ServidorCliente, ServidorHoroscopo y ServidorPronostico
- se inicia el registro RMI de la siguiente manera 
+ se realiza la publicación del Web Service de la siguiente manera: 
 \begin_inset Quotes eld
 \end_inset
 
-rmiregistry PORT &
+java nombrePackage.clasePublisher
 \begin_inset Quotes erd
 \end_inset
 
- donde PORT es el puerto elegido
-\end_layout
+.
+ En nuestro caso por ejemplo: 
+\begin_inset Quotes eld
+\end_inset
 
-\begin_layout Enumerate
-En las tres terminales correspondientes, se ejecutan los Servidores de Pronostic
-o y Horocopo de esta manera: 'java Servidor PORT' en donde PORT es el puerto
- elegido (debe coincidir con el que elegimos en el rmiregistry)
+java sc.PronosHorosPublisher
+\begin_inset Quotes erd
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
@@ -708,18 +739,29 @@ Limitaciones, conclusión y trabajos futuros
 
 \begin_layout Standard
 Luego de haber implementado la solución del problema planteado, se concluye
- en que la utilización de RMI ha sido un gran avance en comparación a la
- solución anteriormente planteada con sockets.
- De esta manera, el programador se desliga de realizar las conexiones a
- bajo nivel; sólo se tiene que encargar de que las clases sean registradas
- en el Registry, y con esto, ya brinda la posibilidad de que sus métodos
- puedan ser accedidos remotamente.
- Así, un Cliente que se ejecute puede invocar dichos métodos sin saber particula
-rmente si estos son locales o remotos.
- Por lo tanto creemos que la implementación ha sido mucho mas sencilla en
- comparación.
- Otra ventaja importante es que como programadores nos hemos visto desligados
- de creación de threads para le manejo de consultas en paralelo.
+ en que la utilización de Web Services ha sido muy fácil de implementar.
+ Como programadores, estamos desligados de realizar conexiones a bajo nivel;
+ solo estamos encargados de especificar la interfaz de un servicio y publicarlo;
+ simplemente así se consigue que este servicio pueda ser consumido por algún
+ Cliente.
+ Así, un Cliente que solicita servicios puede invocar dichos métodos sin
+ saber particularmente si estos son locales o remotos, o como estan implementado
+s.
+ Además, las especificaciones de los Web Services permiten que un Cliente
+ que necesita cumplir un requerimiento, pueda buscar entre los servicios
+ publicados, cual cumple mejor sus necesidades, y así, 
+\begin_inset Quotes eld
+\end_inset
+
+solicitar
+\begin_inset Quotes erd
+\end_inset
+
+ la interfaz y la forma de consumirlo.
+ Por lo tanto creemos que la utilización es más provechosa en comparación
+ con anteriores implementaciones.
+ Otra ventaja importante es que nos hemos vistos desligados de creación
+ de threads para el manejo de consultas en paralelo.
 \end_layout
 
 \begin_layout Standard
@@ -730,9 +772,18 @@ Más allá de que el trabajo de desarrollo fue más simplificado, hay problemas
  Además, cabe añadir que el Cliente tiene que conocer la Interfaz que va
  a invocar, la nomenclatura de los métodos, los argumentos solicitados,
  tipos de datos de los mismos; esto puede verse como una limitación.
- Otra limitación ligada al uso de RMI es que es propio del lenguaje de programac
-ión Java, por lo que no permite la interacción con aplicaciones escritas
- en otro lenguaje.
+ Si bien cuando se publica un Servicio se especifican todos esos aspectos,
+ el Cliente tiene que ser capaz de identificar cuáles son los Servicios
+ que le convienen consumir.
+ A veces, según los requerimientos, estos Servicios podrían no ser exactamente
+ los que uno necesita, y en ese caso habrá que ver, en qué medida me sirve,
+ si se deberá consumir más de un servicio o no, como integrar ese o esos
+ servicios a la propia implementación.
+ Hay ramas de investigación en este área que se dedican a determinar, por
+ ejemplo, dado un requerimiento y analizandolo, cuáles son los servicios
+ disponibles que más se asemejan al solicitado y como adaptar la interfaz
+ para que sea compatible con lo buscado.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -768,6 +819,10 @@ Bibliografía
 
 \begin_layout Standard
 - Generador de expresiones regulares: https://regex101.com/
+\end_layout
+
+\begin_layout Standard
+- http://www.w3c.es/Divulgacion/GuiasBreves/ServiciosWeb
 \end_layout
 
 \end_body
