@@ -1,0 +1,55 @@
+Class PRONOSHOROSCLIENT
+
+BEGIN
+	service <-- Obtener Web Service (url,name)
+	pronosHoros <-- Obtener puerto (service)
+	Read(request)
+	IF (request='exit') THEN
+		Write("Cliente> Fin de programa")
+	ELSE
+		IF (request='help') THEN
+			Write(manPage)
+		ELSE 
+			fecha <-- obtener fecha (request)
+			signo <-- obtener signo (request)
+			IF (fecha && signo = false) THEN
+				Write("Cliente> No se encontro una fecha o un Signo en el comando enviado.")
+				Write("Cliente> 'exit' para salir o 'help' para obtener la ayuda")
+				Write("Cliente> Abortado.")
+			ELSE
+				IF (fecha = false) THEN
+					Write("Cliente> No se encontro una fecha en el comando enviado.")
+					Write("Cliente> Desea consulta solamente el Horoscopo?[SI/no]:")
+					Leer(request)
+					IF (request = 'si') THEN
+						st <-- pronosHoros.getHoroscopo(signo)
+						IF(signo!= null) THEN
+							Write("Servidor> " + st )
+						END IF
+					ELSE
+						Write("Cliente> Abortado.")
+					END IF
+				ELSE
+					IF (signo = false) THEN
+						Write("Cliente> No se encontro un signo en el comando enviado.")
+						Write("Cliente> Desea consulta solamente el Pronostico?[SI/no]:")
+						Leer(request)
+						IF (request = 'si') THEN
+							st <-- pronosHoros.getPronostico(fecha)
+							IF(signo!= null) THEN
+								Write("Servidor> " + st )
+							END IF
+						ELSE
+							Write("Cliente> Abortado.")
+						END IF
+					ELSE 
+						st <-- pronosHotos.getPronosHoros(fecha,signo)
+						IF (st!=null) THEN
+							Write("Servidor> " + st )
+						END IF
+					END IF
+				END IF
+			END IF	
+		END IF
+	END IF
+END
