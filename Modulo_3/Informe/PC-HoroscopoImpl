@@ -1,0 +1,27 @@
+Class HoroscopoImpl
+
+METODO getHoroscopo
+ENTRADA: signo
+VARIABLES: datosServidor
+
+BEGIN
+	IF(signo != "Acuario" && signo != "Piscis" && signo != "Aries" && signo != "Tauro" && signo != "Geminis" && signo != "Cancer" && signo != "Leo" && signo != "Virgo" && signo != "Libra" && signo != "Escorpio" && signo != "Sagitario" && signo != "Capricornio")
+		result = "No se encuentra signo"
+		error = true
+	END IF
+
+	IF (error != true)
+		cache <-- datosServidor.getCache()
+		datCache <-- cache.get(signo)
+		IF (datCache != null)
+			result <-- datCache
+		ELSE
+			horoscoposList <-- datosServidor.getHoroscopos()
+			randm <- random()
+			randomNum <-- random.getRandom()
+			result <-- horoscoposList.get(randomNum)
+			datosServidor.actCache(signo,result)
+		END IF
+	END IF
+	return result
+END

@@ -1,0 +1,110 @@
+Class PRONOSHOROSIMPL
+
+METODO getPronosHoros
+ENTRADA: fecha, signo
+VARIABLES: datosServidor
+
+BEGIN
+	IF ( regex(fecha) )
+		fechaR <-- regex(fecha)
+	ELSE
+		fechaError <-- true
+	END IF
+
+	IF ( regex(signo) )
+		signoR <-- regex(signo)
+	ELSE
+		signoError <-- true
+	END IF
+
+	cache <-- datosServidor.getCache()
+	datCache <-- cache.get(fecha+"-"+signo)
+	IF (datCache != null)
+		return datCache
+	ELSE
+		IF ( fechaError && signoError)
+			return " "
+		ENDIF
+
+		IF (fechaError == false)
+			service <-- Obtener Web Service (url,name)
+			pronos <-- Obtener puerto (service)
+			respuestaPron <-- pronos.getPronostico(fecha)
+		END IF
+
+		IF (signoError == false)
+			service <-- Obtener Web Service (url,name)
+			pronos <-- Obtener puerto (service)
+			respuestaHoros <-- pronos.getHoroscopo(signo)
+		END IF
+		respuesta <-- "El Pronostico para el "+respuestaPron+" y el Horoscopo para "+signo+" es "+respuestaHoros
+		datosServidor.actCache(fecha+"-"+signo,respuesta)
+		return respuesta
+	END IF
+END
+
+
+
+
+METODO getPronostico
+ENTRADA: fecha
+VARIABLES: datosServidor
+
+BEGIN
+	IF ( regex(fecha) )
+		fechaR <-- regex(fecha)
+	ELSE
+		fechaError <-- true
+	END IF
+
+	cache <-- datosServidor.getCache()
+	datCache <-- cache.get(fecha)
+	IF (datCache != null)
+		return datCache
+	ELSE
+		IF ( fechaError)
+			return " "
+		ELSE
+			service <-- Obtener Web Service (url,name)
+			pronos <-- Obtener puerto (service)
+			respuestaPron <-- pronos.getPronostico(fecha)
+		END IF
+
+		respuesta <-- "El Pronostico para el "+respuestaPron"
+		datosServidor.actCache(fecha,respuesta)
+	return respuesta
+	END IF
+END
+
+
+
+
+METODO getHoroscopo
+ENTRADA: signo
+VARIABLES: datosServidor
+
+BEGIN
+	IF ( regex(signo) )
+		fechaR <-- regex(signo)
+	ELSE
+		fechaError <-- true
+	END IF
+
+	cache <-- datosServidor.getCache()
+	datCache <-- cache.get(signo)
+	IF (datCache != null)
+		return datCache
+	ELSE
+		IF ( signoError)
+			return " "
+		ELSE
+			service <-- Obtener Web Service (url,name)
+			horos <-- Obtener puerto (service)
+			respuestaPron <-- horos.getHoroscopo(signo)
+		END IF
+
+		respuesta <-- "El Horoscopo para el "+respuestaPron"
+		datosServidor.actCache(signo,respuesta)
+	return respuesta
+	END IF
+END

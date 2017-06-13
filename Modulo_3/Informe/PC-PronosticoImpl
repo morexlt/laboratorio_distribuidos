@@ -1,0 +1,30 @@
+Class PronosticoImpl
+
+METODO getPronostico
+ENTRADA: fecha
+VARIABLES: datosServidor
+
+BEGIN
+	
+	IF (formatFecha(fecha))
+		fecha = formatFecha(fecha)
+	ELSE
+		result <-- "Error en la fecha enviada"
+		error <-- true
+	END IF
+
+	IF (error != true)
+		cache <-- datosServidor.getCache()
+		datCache <-- cache.get(fecha)
+		IF (datCache != null)
+			result <-- datCache
+		ELSE
+			pronosticosList <-- datosServidor.getPronosticos()
+			randm <- random()
+			randomNum <-- random.getRandom()
+			result <-- pronosticosList.get(randomNum)
+			datosServidor.actCache(fecha,result)
+		END IF
+	END IF
+	return result
+END
