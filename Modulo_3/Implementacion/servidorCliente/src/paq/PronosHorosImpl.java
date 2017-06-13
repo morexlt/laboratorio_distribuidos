@@ -69,7 +69,7 @@ public class PronosHorosImpl implements PronosHoros{
         }else{
             try {  
                 if(errorFecha && errorSigno){
-
+                    return " ";
                 }else{
 
                     if(!errorFecha){
@@ -162,7 +162,7 @@ public class PronosHorosImpl implements PronosHoros{
         }else{
             try {  
                 if(errorFecha){
-
+                    return "";
                 }else{
 
                     if(!errorFecha){
