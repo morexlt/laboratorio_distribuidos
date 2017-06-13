@@ -5,7 +5,8 @@ ENTRADA: signo
 VARIABLES: datosServidor
 
 BEGIN
-	IF(signo != "Acuario" && signo != "Piscis" && signo != "Aries" && signo != "Tauro" && signo != "Geminis" && signo != "Cancer" && signo != "Leo" && signo != "Virgo" && signo != "Libra" && signo != "Escorpio" && signo != "Sagitario" && signo != "Capricornio")
+	IF(signo != "Acuario" && signo != "Piscis" && signo != "Aries" && signo != "Tauro" && signo != "Geminis" && signo != "Cancer" 
+		i&& signo != "Leo" && signo != "Virgo" && signo != "Libra" && signo != "Escorpio" && signo != "Sagitario" && signo != "Capricornio")
 		result = "No se encuentra signo"
 		error = true
 	END IF

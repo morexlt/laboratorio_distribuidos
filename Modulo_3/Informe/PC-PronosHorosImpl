@@ -70,7 +70,7 @@ BEGIN
 			respuestaPron <-- pronos.getPronostico(fecha)
 		END IF
 
-		respuesta <-- "El Pronostico para el "+respuestaPron"
+		respuesta <-- "El Pronostico para el "+respuestaPron
 		datosServidor.actCache(fecha,respuesta)
 	return respuesta
 	END IF
@@ -103,7 +103,7 @@ BEGIN
 			respuestaPron <-- horos.getHoroscopo(signo)
 		END IF
 
-		respuesta <-- "El Horoscopo para el "+respuestaPron"
+		respuesta <-- "El Horoscopo para el "+respuestaProni
 		datosServidor.actCache(signo,respuesta)
 	return respuesta
 	END IF

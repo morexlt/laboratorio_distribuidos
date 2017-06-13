@@ -450,7 +450,8 @@ Mientras el Cliente espera, la clase PronosHorosImpl en la implementación
  de su método get tiene que conseguir la respuesta; para esto, lo que hace
  es como primer paso, verificar que en su caché, un hash que nosotros llamamos
  DatosServidor, que no tenga la información que le ha sido solicitada.
- Este hash ES INICIALIZADO GILADA, de la cual está encargado el Servidor.
+ Este hash se crea durante la ejecución de la clase Publisher, de la cual
+ está encargado el Servidor.
  Si la consulta ya había sido realizada con anterioridad, y la respuesta
  requerida se encuentra en la caché, el método simplemente retorna estos
  datos.
@@ -509,7 +510,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Comunicación Cliente-Servidor
+Clase PronosHorosClient
 \end_layout
 
 \end_inset
@@ -519,10 +520,6 @@ Comunicación Cliente-Servidor
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
 Tanto el Cliente como el ServidorCliente tienen conocimiento de la interfaz
  PronosHoros, la cual define los metodos necesarios para obtener la información.
 \end_layout
@@ -534,6 +531,129 @@ El que implementa esa interfaz, en este caso el Servidor, está obligado
  En nuestro caso localhost:port/PornosHoros.
  Además se especifica cual es la clase que implementa dicha interfaz (PronosHoro
 sImpl).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Fig3a.png
+	lyxscale 10
+	scale 50
+	clip
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Clase PronosHorosImpl 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Fig3b.png
+	lyxscale 10
+	scale 50
+	clip
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Clase PronosHorosImpl - getPronostico
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Fig3c.png
+	lyxscale 10
+	scale 50
+	clip
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Clase PronosHorosImpl - getHoroscopo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -574,7 +694,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Comunicación Servidor-ServidorPronóstico
+Clase HoroscopoImp
 \end_layout
 
 \end_inset
@@ -628,7 +748,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Comunicación Servidor-ServidorHoroscopo
+Clase PronosticoImpl
 \end_layout
 
 \end_inset
@@ -683,7 +803,7 @@ wsgen -keep -cp .
 \end_inset
 
 wsgen -keep -cp .
- sc.PronosHorosImpl
+ paq.PronosHorosImpl
 \begin_inset Quotes erd
 \end_inset
 
@@ -705,7 +825,7 @@ java nombrePackage.clasePublisher
 \begin_inset Quotes eld
 \end_inset
 
-java sc.PronosHorosPublisher
+java paq.PronosHorosPublisher
 \begin_inset Quotes erd
 \end_inset
 
